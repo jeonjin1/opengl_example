@@ -1,4 +1,3 @@
-
 # ExternalProject 관련 명령어 셋 추가
 include(ExternalProject)
 
@@ -17,7 +16,7 @@ ExternalProject_Add(
     PATCH_COMMAND ""
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${DEP_INSTALL_DIR}
     TEST_COMMAND ""
-)
+    )
 # Dependency 리스트 및 라이브러리 파일 리스트 추가
 set(DEP_LIST ${DEP_LIST} dep_spdlog)
 set(DEP_LIBS ${DEP_LIBS} spdlog$<$<CONFIG:Debug>:d>)
@@ -28,8 +27,8 @@ ExternalProject_Add(
     GIT_REPOSITORY "https://github.com/glfw/glfw.git"
     GIT_TAG "3.3.3"
     GIT_SHALLOW 1
-    UPDATE_COMMAND "" 
-    PATCH_COMMAND "" 
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
     TEST_COMMAND ""
     CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${DEP_INSTALL_DIR}
@@ -85,9 +84,9 @@ ExternalProject_Add(
     BUILD_COMMAND ""
     TEST_COMMAND ""
     INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${PROJECT_BINARY_DIR}/dep_glm-prefix/src/dep_glm/glm
-    ${DEP_INSTALL_DIR}/include/glm
-  )
+        ${PROJECT_BINARY_DIR}/dep_glm-prefix/src/dep_glm/glm
+        ${DEP_INSTALL_DIR}/include/glm
+    )
 set(DEP_LIST ${DEP_LIST} dep_glm)
 
 add_library(imgui
@@ -103,3 +102,27 @@ add_dependencies(imgui ${DEP_LIST})
 set(DEP_INCLUDE_DIR ${DEP_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/imgui)
 set(DEP_LIST ${DEP_LIST} imgui)
 set(DEP_LIBS ${DEP_LIBS} imgui)
+
+# assimp
+ExternalProject_Add(
+    dep_assimp
+    GIT_REPOSITORY "https://github.com/assimp/assimp"
+    GIT_TAG "v5.0.1"
+    GIT_SHALLOW 1
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${DEP_INSTALL_DIR}
+        -DBUILD_SHARED_LIBS=OFF
+        -DASSIMP_BUILD_ASSIMP_TOOLS=OFF
+        -DASSIMP_BUILD_TESTS=OFF
+        -DASSIMP_INJECT_DEBUG_POSTFIX=OFF
+        -DASSIMP_BUILD_ZLIB=ON
+    TEST_COMMAND ""
+    )
+set(DEP_LIST ${DEP_LIST} dep_assimp)
+set(DEP_LIBS ${DEP_LIBS}
+    assimp-vc142-mt$<$<CONFIG:Debug>:d>
+    zlibstatic$<$<CONFIG:Debug>:d>
+    IrrXML$<$<CONFIG:Debug>:d>
+    )
