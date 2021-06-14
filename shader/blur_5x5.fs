@@ -9,8 +9,8 @@ void main() {
     vec4 result = vec4(0.0);
     for (int x = -2; x <= 2; ++x) {
         for (int y = -2; y <= 2; ++y) {
-            vec2 offset = vec2(float(x), float(y)) * texelSize;
-            result += texture(tex, texCoord + offset);
+        vec2 offset = vec2(float(x), float(y)) * texelSize;
+        result += texture(tex, texCoord + offset);
         }
     }
     fragColor = result / 25.0;

@@ -47,8 +47,7 @@ float ShadowCalculation(vec4 fragPosLight, vec3 normal, vec3 lightDir) {
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
     for(int x = -1; x <= 1; ++x) {
         for (int y = -1; y <= 1; ++y) {
-            float pcfDepth = texture(shadowMap,
-                projCoords.xy + vec2(x, y) * texelSize).r;
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
             shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
         }
     }
@@ -60,7 +59,7 @@ void main() {
     vec3 texColor = texture2D(material.diffuse, fs_in.texCoord).xyz;
     vec3 ambient = texColor * light.ambient;
 
-   vec3 result = ambient;
+    vec3 result = ambient;
     vec3 lightDir;
     float intensity = 1.0;
     float attenuation = 1.0;
@@ -77,7 +76,7 @@ void main() {
         intensity = clamp(
             (theta - light.cutoff[1]) / (light.cutoff[0] - light.cutoff[1]),
             0.0, 1.0);
-}
+    }
 
     if (intensity > 0.0) {
         vec3 pixelNorm = normalize(fs_in.normal);

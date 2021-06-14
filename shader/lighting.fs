@@ -5,6 +5,7 @@ in vec2 texCoord;
 out vec4 fragColor;
 
 uniform vec3 viewPos;
+uniform int blinn;
 
 struct Light {
     vec3 position;
@@ -23,7 +24,6 @@ struct Material {
     float shininess;
 };
 uniform Material material;
-uniform int blinn;
 
 void main() {
     vec3 texColor = texture2D(material.diffuse, texCoord).xyz;
@@ -58,12 +58,11 @@ void main() {
             spec = pow(max(dot(halfDir, pixelNorm), 0.0), material.shininess);
         }
         vec3 specular = spec * specColor * light.specular;
-
         result += (diffuse + specular) * intensity;
     }
 
     result *= attenuation;
 
     fragColor = vec4(result, 1.0);
-    // fragColor = vec4(vec3(gl_FragCoord.z), 1.0);
+    //fragColor = vec4(vec3(gl_FragCoord.z), 1.0);
 }

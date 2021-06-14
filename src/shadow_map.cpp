@@ -1,20 +1,20 @@
 #include "shadow_map.h"
 
 ShadowMapUPtr ShadowMap::Create(int width, int height) {
-  auto shadowMap = ShadowMapUPtr(new ShadowMap());
-  if (!shadowMap->Init(width, height))
-    return nullptr;
-  return std::move(shadowMap);
+    auto shadowMap = ShadowMapUPtr(new ShadowMap());
+    if (!shadowMap->Init(width, height))
+        return nullptr;
+    return std::move(shadowMap);
 }
 
 ShadowMap::~ShadowMap() {
-  if (m_framebuffer) {
-    glDeleteFramebuffers(1, &m_framebuffer);
-  }
+    if (m_framebuffer) {
+        glDeleteFramebuffers(1, &m_framebuffer);
+    }
 }
 
 void ShadowMap::Bind() const {
-  glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
 }
 
 bool ShadowMap::Init(int width, int height) {
